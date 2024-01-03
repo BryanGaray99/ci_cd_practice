@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     // Run the test suite
-                    bat "mvn test -Durl=${params.url} -DxmlFilePath=${params.suiteName}"
+                    bat "mvn test -Durl=${params.url} -DsuiteFile=${params.suiteName}"
                 }
             }
         }
