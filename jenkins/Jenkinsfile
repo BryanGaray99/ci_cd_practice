@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'url', defaultValue: 'https://swapi.dev/api', description: 'Base URL for testing')
+    }
+
+    tools {
+        maven "M3"
+    }
+
+    stages {
+        stage('Clone and Fetch') {
+            steps {
+                script {
+                    // Clone and fetch steps
+                    git branch: 'main', url: 'https://github.com/BryanGaray99/ci_cd_practice.git'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Set the system property for the URL and build the project
+                    bat "mvn clean verify -Durl=${params.url}"
+                }
+            }
+        }
+
+        stage('Execute Tests') {
+            steps {
+                script {
+                    // Run the test suite
+                    bat "mvn test -Durl=${params.url} -DxmlFilePath='suite.xml'"
+                }
+            }
+        }
+    }
+}
