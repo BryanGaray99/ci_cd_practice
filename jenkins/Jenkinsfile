@@ -34,6 +34,19 @@ pipeline {
                     // Run the test suite
                     bat "mvn test -Durl=${params.url} -DxmlFilePath='suite.xml'"
                 }
+
+                post {
+                    // If Maven was able to run the tests, even if some of the test
+                    always{
+                        allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '*/allure-results']]
+                        ])
+                    }
+                }
             }
         }
     }
