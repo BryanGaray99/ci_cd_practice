@@ -36,8 +36,14 @@ pipeline {
                 }
             }
             post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                always{
+                    allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: '*/allure-results']]
+                    ])
                 }
             }
         }
