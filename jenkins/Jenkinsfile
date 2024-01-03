@@ -23,8 +23,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Set the system property for the URL and build the project
-                    bat "mvn clean verify -Durl=${params.url} -DsuiteFile=${params.suiteName}"
+                    bat "mvn -B -DskipTests clean package"
                 }
             }
         }
@@ -34,6 +33,11 @@ pipeline {
                 script {
                     // Run the test suite
                     bat "mvn test -Durl=${params.url} -DsuiteFile=${params.suiteName}"
+                }
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
