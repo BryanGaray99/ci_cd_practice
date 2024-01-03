@@ -3,6 +3,7 @@ pipeline {
 
     parameters {
         string(name: 'url', defaultValue: 'https://swapi.dev/api', description: 'Base URL for testing')
+        string(name: 'suiteName', defaultValue: 'PeopleSuite.xml', description: 'Test Suite')
     }
 
     tools {
@@ -32,20 +33,7 @@ pipeline {
             steps {
                 script {
                     // Run the test suite
-                    bat "mvn test -Durl=${params.url} -DxmlFilePath='suite.xml'"
-                }
-
-                post {
-                    // If Maven was able to run the tests, even if some of the test
-                    always{
-                        allure([
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '*/allure-results']]
-                        ])
-                    }
+                    bat "mvn test -Durl=${params.url} -DxmlFilePath=${params.suiteName}"
                 }
             }
         }

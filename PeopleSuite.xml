@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="PeopleSuite" verbose="1">
+    <parameter name="baseUrl" value="${com.bgaray.utils.fixtures.EndpointConfig.BASE_URL}"/>
+
+    <test name="People Tests">
+        <classes>
+            <class name="com.bgaray.tests.People2Test"/>
+        </classes>
+    </test>
+</suite>
